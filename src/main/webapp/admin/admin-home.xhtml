@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+	<title>Home</title>
+	<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+	<h:outputScript library="js" name="jquery.min.js"></h:outputScript>
+	<h:outputScript library="js" name="bootsrap.min.js"></h:outputScript>
+</h:head> 
+<body> 
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-10">
+				<h3>User Management</h3>
+			</div>
+			<div class="col">
+				<h:form>
+					<h:commandLink action="#{logoutBean.logout()}" value="LogOut" styleClass="btn btn-primary" />
+				</h:form>
+			</div>
+		</div>
+		
+		
+		<div class="row mt-4">
+			<!-- user create -->
+			<div class="col-4">
+				<h:form styleClass="form" id="create">
+					<div class="form-group">
+						<label>User Name</label>
+						<h:inputText value="#{userBean.user.userName}" styleClass="form-control"/>
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<h:inputText validatorMessage="Require Email" value="#{userBean.user.email}" styleClass="form-control" id="email">
+							<f:validateRequired></f:validateRequired>
+						</h:inputText>
+						<h:message for="email" styleClass="text-danger"/>
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<h:inputSecret validatorMessage="Require Password" id="pass" value="#{userBean.user.password}" styleClass="form-control">
+							<f:validateRequired></f:validateRequired>
+						</h:inputSecret>
+						<h:message for="pass" styleClass="text-danger"/>
+					</div>
+					<div class="form-group">
+						<label>Role</label>
+						<h:selectOneMenu value="#{userBean.user.role}" styleClass="form-control">
+							<f:selectItem itemLabel="Admin" itemValue="Admin"/>
+							<f:selectItem itemLabel="Member" itemValue="Member"/>
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group">
+						<h:commandButton actionListener="#{userBean.checkEmail()}" action="#{userBean.createUser()}" value="Create" styleClass="btn btn-primary"/>
+					</div>
+				</h:form>
+			</div>
+			<!-- user list -->
+			<div class="col">
+				<h:dataTable value="#{userBean.users}" var="u" styleClass="table">
+					<h:column>
+						<f:facet name="header">User Name</f:facet>
+						#{u.userName}
+					</h:column>
+					<h:column>
+						<f:facet name="header">Email</f:facet>
+						#{u.email}
+					</h:column>
+					<h:column>
+						<f:facet name="header">Role</f:facet>
+						#{u.role}
+					</h:column>
+					<h:column>
+						<f:facet name="header">Create At</f:facet>
+						#{u.create_at}
+					</h:column>
+					<h:column>
+						<f:facet name="header">Update At</f:facet>
+						#{u.update_at}
+					</h:column>
+				</h:dataTable>
+			</div>
+		</div>
+		
+	</div>
+</body> 
+</html>
